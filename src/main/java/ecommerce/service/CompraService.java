@@ -160,22 +160,33 @@ public class CompraService {
 	}
 
 	public BigDecimal calcularFrete(Regiao regiao, List<ItemCompra> items) {
+		if (regiao == null) {
+			throw new IllegalArgumentException("Região inválida para cálculo de frete.");
+		}
+
 		BigDecimal pesoTotal = calcularPesoTotal(items);
 		BigDecimal valorFrete = BigDecimal.ZERO;
+
+		if (pesoTotal.compareTo(BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException("Peso total inválido para cálculo de frete.");
+		}
 
 		// Cálculo do frete baseado no peso total
 		if (pesoTotal.compareTo(BigDecimal.valueOf(5)) == -1) {
 			valorFrete = BigDecimal.ZERO;
 		} else if (pesoTotal.compareTo(BigDecimal.valueOf(5)) > 0 && pesoTotal.compareTo(BigDecimal.valueOf(10)) <= 0) {
-			valorFrete = pesoTotal.add(BigDecimal.valueOf(12))
-					.multiply(BigDecimal.valueOf(2));
+			valorFrete = pesoTotal
+					.multiply(BigDecimal.valueOf(2))
+					.add(BigDecimal.valueOf(12));
 		} else if (pesoTotal.compareTo(BigDecimal.valueOf(10)) > 0
 				&& pesoTotal.compareTo(BigDecimal.valueOf(50)) <= 0) {
-			valorFrete = pesoTotal.add(BigDecimal.valueOf(12))
-					.multiply(BigDecimal.valueOf(4));
+			valorFrete = pesoTotal
+					.multiply(BigDecimal.valueOf(4))
+					.add(BigDecimal.valueOf(12));
 		} else if (pesoTotal.compareTo(BigDecimal.valueOf(50)) > 0) {
-			valorFrete = pesoTotal.add(BigDecimal.valueOf(12))
-					.multiply(BigDecimal.valueOf(7));
+			valorFrete = pesoTotal
+					.multiply(BigDecimal.valueOf(7))
+					.add(BigDecimal.valueOf(12));
 		}
 
 		// Adicional para produtos frágeis
@@ -207,6 +218,10 @@ public class CompraService {
 	}
 
 	public BigDecimal calcularDescontoFrete(BigDecimal valorFrete, TipoCliente tipoCliente) {
+		if (tipoCliente == null) {
+			throw new IllegalArgumentException("Tipo de cliente inválido para cálculo de desconto no frete.");
+		}
+
 		if (tipoCliente == TipoCliente.OURO) {
 			valorFrete = BigDecimal.ZERO;
 		} else if (tipoCliente == TipoCliente.PRATA) {
@@ -247,7 +262,16 @@ public class CompraService {
 	}
 
 	public BigDecimal freteComDesconto(CarrinhoDeCompras carrinho, Regiao regiao, TipoCliente tipoCliente) {
+		if (carrinho == null) {
+			throw new IllegalArgumentException("O carrinho informado não é válido.");
+		}
+
 		List<ItemCompra> produtos = carrinho.getItens();
+
+		if (produtos == null) {
+			throw new IllegalArgumentException("Lista de itens inválida.");
+		}
+
 		// Calcular frete com base nas regras
 		BigDecimal frete = calcularFrete(regiao, produtos);
 

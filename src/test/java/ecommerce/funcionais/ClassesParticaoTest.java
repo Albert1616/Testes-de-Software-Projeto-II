@@ -229,4 +229,273 @@ public class ClassesParticaoTest {
 
         assertThat(subTotal).isEqualByComparingTo("968.00");
     }
+
+    // P9
+    @Test
+    void CalcularFretePorPesoTotalDeveLancarExcecaoParaPesoTotalNegativo() {
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(10), BigDecimal.valueOf(-0.3),
+                        BigDecimal.valueOf(15), BigDecimal.valueOf(-7), BigDecimal.valueOf(0.8),
+                        false, TipoProduto.ELETRONICO), 1L));
+        carrinho.setItens(items);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            compraService.freteComDesconto(carrinho, Regiao.SUDESTE, TipoCliente.BRONZE);
+        }, "Peso total inválido para cálculo de frete.");
+    }
+
+    // P10
+    @Test
+    void CalcularFretePorPesoTotal_ParaPesoTotalEntre0E5_EntaoFreteInsento() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(0.9),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        false, TipoProduto.ELETRONICO), 2L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(0.85),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        false, TipoProduto.ROUPA), 2L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("0.00");
+    }
+
+    // P11
+    @Test
+    void CalcularFretePorPesoTotal_ParaPesoTotalEntre5E10_EntaoFreteDe2PorKG() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(5),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        false, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(5),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        false, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("32.00");
+    }
+
+    // P12
+    @Test
+    void CalcularFretePorPesoTotal_ParaPesoTotalEntre10E50_EntaoFreteDe4PorKG() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        false, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(20),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        false, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("132.00");
+    }
+
+    // P13
+    @Test
+    void CalcularFretePorPesoTotal_ParaPesoTotalMaiorQue50_EntaoFreteDe7PorKG() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(30),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        false, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(30),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        false, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("432.00");
+    }
+
+    // P14
+    @Test
+    void CalcularFretePorPesoTotalSemFragilidade_ParaNenhumItemComFragilidade_EntaoSemTaxaDeManuseio() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        false, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        false, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("92.00");
+    }
+
+    // P14
+    @Test
+    void CalcularFretePorPesoTotalComFragilidade_ParaItemsComFragilidade_EntaoTaxaDeManuseioDe5XQuantidade() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        true, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        true, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("102.00");
+    }
+
+    // P16
+    @Test
+    void CalcularFreteComDescontoPorPesoTipoDeCliente_ParaTipoDeClienteOuro_EntaoFreteInsento() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.OURO;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        true, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        true, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("0.00");
+    }
+
+    // P17
+    @Test
+    void CalcularFreteComDescontoPorPesoTipoDeCliente_ParaTipoDeClientePrata_EntaoFreteComDescontoDe50Porcento() {
+        Regiao regiao = Regiao.SUDESTE;
+        TipoCliente tipoCliente = TipoCliente.PRATA;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        true, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        true, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo("51.00");
+    }
+
+    // P18
+    @Test
+    void CalcularFreteComDescontoPorPesoTipoDeClienteDeveRetornarExcecaoParaTipoDeClienteInvalido() {
+        Regiao regiao = Regiao.SUDESTE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        true, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        true, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            compraService.freteComDesconto(carrinho, regiao, null);
+        }, "Tipo de cliente inválido para calculo de desconto do frete.");
+    }
+
+    // P19, P20, P21, P22, P23, P24
+    @ParameterizedTest
+    @CsvSource({
+            "NORTE, 41.60",
+            "NORDESTE, 35.20",
+            "SUDESTE, 32.00",
+            "SUL, 33.60",
+            "CENTRO_OESTE, 38.40"
+    })
+    void CalcularFretePorRegiao_ParaDiferentesRegioes_EntaoFreteCorreto(Regiao regiao, String valorEsperado) {
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(10), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        false, TipoProduto.ELETRONICO), 1L));
+
+        carrinho.setItens(items);
+        BigDecimal frete = compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+
+        assertThat(frete).isEqualByComparingTo(valorEsperado);
+    }
+
+    // P25
+    @Test
+    void CalcularFretePorRegiaoDeveRetornarExcecaoParaRegiaoInvalida() {
+        TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+        items = Arrays.asList(
+                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                        BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                        true, TipoProduto.ELETRONICO), 1L),
+
+                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                        BigDecimal.valueOf(500), BigDecimal.valueOf(10),
+                        BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                        true, TipoProduto.ROUPA), 1L));
+
+        carrinho.setItens(items);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            compraService.freteComDesconto(carrinho, null, tipoCliente);
+        }, "Regiao inválida para calculo do frete.");
+    }
 }
