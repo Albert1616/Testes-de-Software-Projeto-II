@@ -128,13 +128,17 @@ public class CompraService {
 	}
 
 	public BigDecimal calcularDescontoPorValorCarrinho(BigDecimal subTotal) {
-		if (subTotal.compareTo(BigDecimal.valueOf(1000)) > 0) {
-			subTotal = subTotal.multiply(BigDecimal.valueOf(0.2));
-		} else if (subTotal.compareTo(BigDecimal.valueOf(500)) > 0) {
-			subTotal = subTotal.multiply(BigDecimal.valueOf(0.1));
+		if (subTotal.compareTo(BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException("Subtotal inválido para cálculo de desconto.");
 		}
 
-		return subTotal;
+		if (subTotal.compareTo(BigDecimal.valueOf(1000)) > 0) {
+			return subTotal.multiply(BigDecimal.valueOf(0.2));
+		} else if (subTotal.compareTo(BigDecimal.valueOf(500)) > 0) {
+			return subTotal.multiply(BigDecimal.valueOf(0.1));
+		}
+
+		return BigDecimal.ZERO;
 	}
 
 	public BigDecimal calcularPesoTotal(List<ItemCompra> itens) {
@@ -212,11 +216,17 @@ public class CompraService {
 		return valorFrete;
 	}
 
-	public BigDecimal calcularCustoTotal(CarrinhoDeCompras carrinho, Regiao regiao, TipoCliente tipoCliente) {
-		// To-Do
+	public BigDecimal subTotalComDesconto(CarrinhoDeCompras carrinho) {
+		if (carrinho == null) {
+			throw new IllegalArgumentException("O carrinho informado não é válido.");
+		}
 
 		// Lista de ItemProduto do carrinho
 		List<ItemCompra> produtos = carrinho.getItens();
+
+		if (produtos == null || produtos.isEmpty()) {
+			throw new IllegalArgumentException("Lista de itens inválida.");
+		}
 
 		// Subtotal dos itens
 		BigDecimal subTotal = calcularSubTotal(produtos);
@@ -233,11 +243,25 @@ public class CompraService {
 		// Aplicação do desconto no subtotal
 		subTotal = subTotal.subtract(descontoCarrinho);
 
+		return subTotal;
+	}
+
+	public BigDecimal freteComDesconto(CarrinhoDeCompras carrinho, Regiao regiao, TipoCliente tipoCliente) {
+		List<ItemCompra> produtos = carrinho.getItens();
 		// Calcular frete com base nas regras
 		BigDecimal frete = calcularFrete(regiao, produtos);
 
 		// Aplicar desconto ou não ao frete com base nas regras de tipo de cliente
 		frete = calcularDescontoFrete(frete, tipoCliente);
+
+		return frete;
+	}
+
+	public BigDecimal calcularCustoTotal(CarrinhoDeCompras carrinho, Regiao regiao, TipoCliente tipoCliente) {
+		// SubTotal com desconto
+		BigDecimal subTotal = subTotalComDesconto(carrinho);
+		// frete com desconto de nivel de cliente
+		BigDecimal frete = freteComDesconto(carrinho, regiao, tipoCliente);
 
 		BigDecimal valorTotalCarrinho = subTotal.add(frete)
 				.setScale(2, RoundingMode.HALF_UP);
