@@ -1,4 +1,4 @@
-## Partiçãos de partição
+## Classes de partição
 
 | Partição | Quantidade de itens do mesmo tipo  (Q)|
 |-------|----------------------------|
