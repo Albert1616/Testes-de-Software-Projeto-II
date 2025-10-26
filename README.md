@@ -89,3 +89,20 @@
 | V34 | P = 50,00    | P12(max) / P13(min-) |
 | V35 | P = 50,01    | P12(max+) / P13(min) |
 | V36 | P = 50,02    | P13(min+)        |
+
+
+## Cobertura MC/DC
+
+Decisão mais complexa no nosso código:
+`if (pesoTotal.compareTo(BigDecimal.valueOf(5)) > 0 && pesoTotal.compareTo(BigDecimal.valueOf(10)) <= 0)`
+
+| Id | Condição          |
+|----|-------------------|
+| C1 | `pesoTotal > 5`   |
+| C2 | `pesoTotal <= 10` |
+
+| C1      | C2      | Saída   | Caso de teste |
+|---------|---------|---------|---------------|
+| `True`  | `True`  | `True`  | CalcularFretePorPesoTotal_ParaPesoTotalEntre5E10_EntaoFreteDe2PorKG              |
+| `False` | `True`  | `False` | CalcularFretePorPesoTotal_ParaPesoTotalEntre0E5_EntaoFreteIsento              |
+| `True`  | `False` | `False` | CalcularFretePorPesoTotal_ParaPesoTotalEntre10E50_EntaoFreteDe4PorKG              |
