@@ -90,6 +90,73 @@
 | V35 | P = 50,01    | P12(max+) / P13(min) |
 | V36 | P = 50,02    | P13(min+)        |
 
+## Tabela de decisão
+
+| **Condição** | **R1** | **R2** | **R3** | **R4** | **R5** | **R6** | **R7** | **R8** | **R9** | **R10** | **R11** | **R12** |
+|:-------------|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:-------:|:-------:|:-------:|
+| **Q = quantidade de itens do mesmo tipo** | 1–2 | 3–4 | 5–7 | ≥8 | 1–2 | 3–4 | 5–7 | ≥8 | 1–2 | 3–4 | 5–7 | ≥8 |
+| **T = subtotal (R$)** | ≤500 | ≤500 | ≤500 | ≤500 | 500 < T ≤ 1000 | 500 < T ≤ 1000 | 500 < T ≤ 1000 | 500 < T ≤ 1000 | >1000 | >1000 | >1000 | >1000 |
+
+## Casos de teste
+
+| ID | Entrada | Resultado Esperado | Critério Coberto |
+|----|---------|------------------|-----------------|
+| CT01 | Carrinho com lista de itens = null | `IllegalArgumentException` | Validação / Robustez |
+| CT02 | Carrinho com cliente = null | `IllegalArgumentException` | Validação / Robustez |
+| CT03 | Nenhum item do mesmo tipo | Subtotal = 430.00 | Partição P1 |
+| CT04 | 3 a 4 itens do mesmo tipo | Subtotal = 485.50 | Partição P2 |
+| CT05 | 5 a 7 itens do mesmo tipo | Subtotal = 454.00 | Partição P3 |
+| CT06 | 8 ou mais itens do mesmo tipo | Subtotal = 485.00 | Partição P4 |
+| CT07 | Subtotal negativo | `IllegalArgumentException` | Validação / Robustez |
+| CT08 | Subtotal < 500 | Subtotal = 410.00 | Partição P6 |
+| CT09 | Subtotal entre 500 e 1000 | Subtotal = 459.00 | Partição P7 |
+| CT10 | Subtotal > 1000 | Subtotal = 968.00 | Partição P8 |
+| CT11 | Peso total negativo | `IllegalArgumentException` | Validação / Robustez |
+| CT12 | Peso total entre 0 e 5 kg | Frete = 0.00 | Partição P10 |
+| CT13 | Peso total entre 5 e 10 kg | Frete = 32.00 | Partição P11 |
+| CT14 | Peso total entre 10 e 50 kg | Frete = 132.00 | Partição P12 |
+| CT15 | Peso total > 50 kg | Frete = 432.00 | Partição P13 |
+| CT16 | Itens não frágeis | Frete = 92.00 | Partição P15 |
+| CT17 | Itens frágeis | Frete = 102.00 | Partição P14 |
+| CT18 | Tipo de cliente Ouro | Frete = 0.00 | Partição P16 |
+| CT19 | Tipo de cliente Prata | Frete = 51.00 | Partição P17 |
+| CT20 | Tipo de cliente inválido | `IllegalArgumentException` | Robustez / Validação |
+| CT21 | Diferentes regiões | Frete conforme multiplicador da região | Partições P20, P21, P22, P23 e P24 |
+| CT22 | Região inválida | `IllegalArgumentException` | Robustez / Validação |
+| CT23 | Quantidade de itens do mesmo tipo = 2   | Subtotal = 20.00 | Valor limite V1         |
+| CT24 | Quantidade de itens do mesmo tipo = 3   | Subtotal = 28.50 | Valor limite V2    |
+| CT25 | Quantidade de itens do mesmo tipo = 4   | Subtotal = 38.00 | Valor limite V3 |
+| CT26 | Quantidade de itens do mesmo tipo = 5   | Subtotal = 45.00 | Valor limte V4 |
+| CT27 | Quantidade de itens do mesmo tipo = 6   | Subtotal = 54.00 | Valor limite V5 |
+| CT28 | Quantidade de itens do mesmo tipo = 7   | Subtotal = 63.00 | Valor limite V6 |
+| CT29 | Quantidade de itens do mesmo tipo = 8   | Subtotal = 68.00 | Valor limite V7 |
+| CT30 | Quantidade de itens do mesmo tipo = 9   | Subtotal = 76.50 | Valor limite V8         |
+| CT31 | Subtotal do carrinho = 0.00   | Subtotal = 0.00  | Valor limite V9|
+| CT32 | Subtotal do carrinho = 0.01   | Subtotal = 0.01  | Valor limite V10 |
+| CT33 | Subtotal do carrinho = 100.00 | Subtotal = 250.00| Valor limite V11 |
+| CT34 | Subtotal do carrinho = 499.98 | Subtotal = 499.98| Valor limite V12        |
+| CT35 | Subtotal do carrinho = 499.99 | Subtotal = 499.99| Valor limite V13 |
+| CT36 | Subtotal do carrinho = 500.00 | Subtotal = 500.00| Valor limite V14 |
+| CT37 | Subtotal do carrinho = 500.01 | Subtotal = 450.009| Valor limite V15        |
+| CT38 | Subtotal do carrinho = 750.00 | Subtotal = 675.00| Valor limite V16 |
+| CT39 | Subtotal do carrinho = 1000.0 | Subtotal = 900.00| Valor limite V17 |
+| CT40 | Subtotal do carrinho = 1000.0 | Subtotal = 800.008| Valor limite V18 |
+| CT41 | Peso total = 0.00   | Frete = 0.00     | Valor limite V19         |
+| CT42 | Peso total = 0.01   | Frete = 0.00     | Valor limite V20        |
+| CT43 | Peso total = 2.50   | Frete = 0.00     | Valor limite V21               |
+| CT44 | Peso total = 4.99   | Frete = 0.00     | Valor limite V22        |
+| CT45 | Peso total = 5.00   | Frete = 0.00     | Valor limite V23 |
+| CT46 | Peso total = 5.01   | Frete = 22.02    | Valor limite V24 |
+| CT47 | Peso total = 5.02   | Frete = 22.04    | Valor limite V25        |
+| CT48 | Peso total = 7.50   | Frete = 27.00    | Valor limite V26               |
+| CT49 | Peso total = 9.99   | Frete = 31.98    | Valor limite V27        |
+| CT50 | Peso total = 10.00  | Frete = 32.00    | Valor limite V28 |
+| CT51 | Peso total = 10.01  | Frete = 52.04    | Valor limite V29         |
+| CT52 | Peso total = 10.02  | Frete = 52.08    | Valor limite V30        |
+| CT53 | Peso total = 49.99  | Frete = 211.96   | Valor limite V31       |
+| CT54 | Peso total = 50.00  | Frete = 212.00   | Valor limite V32 |
+| CT55 | Peso total = 50.01  | Frete = 362.07   | Valor limite V34 |
+| CT56 | Peso total = 50.02  | Frete = 362.14   | Valor limite V35        |
 
 ## Cobertura MC/DC
 

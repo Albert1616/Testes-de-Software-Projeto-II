@@ -232,6 +232,10 @@ public class CompraService {
 	}
 
 	public BigDecimal subTotalComDesconto(CarrinhoDeCompras carrinho) {
+		if (carrinho.getCliente() == null) {
+			throw new IllegalArgumentException("O carrinho informado não possui um cliente válido.");
+		}
+
 		if (carrinho == null) {
 			throw new IllegalArgumentException("O carrinho informado não é válido.");
 		}
@@ -262,6 +266,10 @@ public class CompraService {
 	}
 
 	public BigDecimal freteComDesconto(CarrinhoDeCompras carrinho, Regiao regiao, TipoCliente tipoCliente) {
+		if (carrinho.getCliente() == null) {
+			throw new IllegalArgumentException("O carrinho informado não possui um cliente válido.");
+		}
+
 		if (carrinho == null) {
 			throw new IllegalArgumentException("O carrinho informado não é válido.");
 		}

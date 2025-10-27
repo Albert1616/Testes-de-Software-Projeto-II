@@ -31,6 +31,7 @@ public class ClassesParticaoTest {
                 compraService = new CompraService(null, null, null, null);
         }
 
+        // Lista de itens inválida
         @Test
         void CalcularDescontoPorTipoDeProdutoDeveLancarExcecaoParaListaDeItensInvalida() {
                 carrinho.setItens(null);
@@ -38,6 +39,32 @@ public class ClassesParticaoTest {
                         compraService.subTotalComDesconto(carrinho);
                         ;
                 }, "Lista de itens inválida.");
+        }
+
+        // Carrinho com cliente inválido
+        @Test
+        void CalcularDescontoPorTipoDeProdutoDeveLancarExcecaoParaClienteInvalido() {
+                items = Arrays.asList(
+                                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                                                BigDecimal.valueOf(100), BigDecimal.valueOf(0.3),
+                                                BigDecimal.valueOf(15), BigDecimal.valueOf(7), BigDecimal.valueOf(0.8),
+                                                false, TipoProduto.ELETRONICO), 1L),
+
+                                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                                                BigDecimal.valueOf(150), BigDecimal.valueOf(0.25),
+                                                BigDecimal.valueOf(30), BigDecimal.valueOf(20), BigDecimal.valueOf(1),
+                                                false, TipoProduto.ROUPA), 2L),
+
+                                new ItemCompra(3L, new Produto(3L, "Chocolate Ao Leite", "Caixa com 500g",
+                                                BigDecimal.valueOf(30), BigDecimal.valueOf(0.5),
+                                                BigDecimal.valueOf(10), BigDecimal.valueOf(5), BigDecimal.valueOf(4),
+                                                false, TipoProduto.ALIMENTO), 1L));
+                carrinho.setItens(items);
+                carrinho.setCliente(null);
+                assertThrows(IllegalArgumentException.class, () -> {
+                        compraService.subTotalComDesconto(carrinho);
+                        ;
+                }, "O cliente informado no carrinho é inválido.");
         }
 
         // P1
@@ -143,7 +170,7 @@ public class ClassesParticaoTest {
                                 .as("Desconto de 15% para mais de 8 items do mesmo tipo");
         }
 
-        // P5
+        // P5 - Subtotal negativo
         @Test
         void CalcularDescontoPorValorTotalDeCarrinhoDeveLancarExcecaoParaSubTotalNegativo() {
                 items = Arrays.asList(
@@ -236,7 +263,7 @@ public class ClassesParticaoTest {
                                 .as("Desconto de 20% para total do carrinho maior que R$1000,00");
         }
 
-        // P9
+        // P9 - Peso total negativo
         @Test
         void CalcularFretePorPesoTotalDeveLancarExcecaoParaPesoTotalNegativo() {
                 items = Arrays.asList(
@@ -442,7 +469,7 @@ public class ClassesParticaoTest {
                                 .as("Frete com desconto de 50% para tipo de cliente Prata");
         }
 
-        // P18
+        // P18 - Tipo de cliente nulo
         @Test
         void CalcularFreteComDescontoPorPesoTipoDeClienteDeveRetornarExcecaoParaTipoDeClienteInvalido() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -490,7 +517,7 @@ public class ClassesParticaoTest {
                                 .as("Frete correto para a região " + regiao);
         }
 
-        // P25
+        // P25 - Região nula
         @Test
         void CalcularFretePorRegiaoDeveRetornarExcecaoParaRegiaoInvalida() {
                 TipoCliente tipoCliente = TipoCliente.BRONZE;
