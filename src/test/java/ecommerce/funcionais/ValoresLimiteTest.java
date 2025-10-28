@@ -31,7 +31,7 @@ public class ValoresLimiteTest {
                 compraService = new CompraService(null, null, null, null);
         }
 
-        // V1, V2, V3, V4, V5, V6, V7, V8, V9
+        // V1, V2, V3, V4, V5, V6, V7, V8, V9 - CT23, CT24, CT25, CT26, CT27, CT28, CT29 e CT30
         @ParameterizedTest
         @CsvSource({
                         "2, 0, 20.00", // Q = 2, sem desconto
@@ -64,18 +64,19 @@ public class ValoresLimiteTest {
                                                 + quantidade2 + " unidades do produto 2");
         }
 
+        // V10, V11, V12, V13, V14, V15, V16, V17, V18 e V19 - CT31, CT32, CT33, CT34, CT35, CT36, CT37, CT38, CT39 e CT40
         @ParameterizedTest
         @CsvSource({
-                        "0, 0, 0.00", // V10
-                        "0, 0.01, 0.01", // V11
-                        "100, 150, 250.00", // V12
-                        "499.98, 0, 499.98", // V13
-                        "499.99, 0, 499.99", // V14
-                        "250.00, 250.00, 500.00", // V15
-                        "250.01, 250.00, 450.009", // V16
-                        "500.00, 250.00, 675.00", // V17
-                        "500.00, 500.00, 900.00", // V18
-                        "500.01, 500.00, 800.008" // V19
+                        "0, 0, 0.00", 
+                        "0, 0.01, 0.01",
+                        "100, 150, 250.00", 
+                        "499.98, 0, 499.98", 
+                        "499.99, 0, 499.99", 
+                        "250.00, 250.00, 500.00", 
+                        "250.01, 250.00, 450.009", 
+                        "500.00, 250.00, 675.00", 
+                        "500.00, 500.00, 900.00", 
+                        "500.01, 500.00, 800.008" 
         })
         void CalcularDescontoPorValorTotalDeCarrinho_ParaDiferentesValoresLimites_EntaoCalculaDescontoCorreto(
                         String preco1,
@@ -99,24 +100,25 @@ public class ValoresLimiteTest {
                                                 + preco2);
         }
 
+        // V21, V22, V23, V24, V25, V26, V27, V28, V29, V30, V31, V32, V33, V34, V35 e V36 - CT41, CT42, CT43, CT44, CT45, CT46, CT47, CT48, CT49, CT50, CT51, CT52, CT53, CT54, CT55, CT56 
         @ParameterizedTest
         @CsvSource({
-                        "0, 0, 0.00", // V21
-                        "0, 0.01, 0.00", // V22
-                        "2.5, 0, 0.00", // V23
-                        "4.99, 0, 0.00", // V24
-                        "5.00, 0, 0.00", // V25
-                        "5.01, 0, 22.02", // V26
-                        "5.02, 0, 22.04", // V27
-                        "7.50, 0, 27.00", // V28
-                        "9.99, 0, 31.98", // V29
-                        "10.00, 0, 32.00", // V30
-                        "10.01, 0, 52.04", // V31
-                        "10.02, 0, 52.08", // V32
-                        "49.99, 0, 211.96", // V33
-                        "50.00, 0, 212.00", // V34
-                        "50.01, 0, 362.07", // V35
-                        "50.02, 0, 362.14" // V36
+                        "0, 0, 0.00", 
+                        "0, 0.01, 0.00",
+                        "2.5, 0, 0.00", 
+                        "4.99, 0, 0.00", 
+                        "5.00, 0, 0.00", 
+                        "5.01, 0, 22.02",
+                        "5.02, 0, 22.04", 
+                        "7.50, 0, 27.00", 
+                        "9.99, 0, 31.98", 
+                        "10.00, 0, 32.00", 
+                        "10.01, 0, 52.04", 
+                        "10.02, 0, 52.08", 
+                        "49.99, 0, 211.96", 
+                        "50.00, 0, 212.00",
+                        "50.01, 0, 362.07", 
+                        "50.02, 0, 362.14" 
         })
         void CalcularFretePorPesoTotal_ParaDiferentesValoresLimites_EntaoCalculaFreteCorreto(String peso1, String peso2,
                         String valorEsperado) {

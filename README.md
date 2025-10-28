@@ -157,6 +157,8 @@
 | CT54 | Peso total = 50.00  | Frete = 212.00   | Valor limite V32 |
 | CT55 | Peso total = 50.01  | Frete = 362.07   | Valor limite V34 |
 | CT56 | Peso total = 50.02  | Frete = 362.14   | Valor limite V35        |
+| CT57 | Diferentes quantidades de itens do mesmo tipo  | Subtotal correspondente   | Decisões A1, A2, A3 e A4        |
+| CT58 | Diferentes quantidades de itens do mesmo tipo e preços variados | Subtotal correspondente   | Decisões A5, A6, A7 e A8        |
 
 ## Cobertura MC/DC
 

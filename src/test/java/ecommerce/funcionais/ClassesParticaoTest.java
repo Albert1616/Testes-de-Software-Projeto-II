@@ -31,7 +31,7 @@ public class ClassesParticaoTest {
                 compraService = new CompraService(null, null, null, null);
         }
 
-        // Lista de itens inválida
+        // Lista de itens inválida - CT01
         @Test
         void CalcularDescontoPorTipoDeProdutoDeveLancarExcecaoParaListaDeItensInvalida() {
                 carrinho.setItens(null);
@@ -41,7 +41,7 @@ public class ClassesParticaoTest {
                 }, "Lista de itens inválida.");
         }
 
-        // Carrinho com cliente inválido
+        // Carrinho com cliente inválido - CT02
         @Test
         void CalcularDescontoPorTipoDeProdutoDeveLancarExcecaoParaClienteInvalido() {
                 items = Arrays.asList(
@@ -67,7 +67,7 @@ public class ClassesParticaoTest {
                 }, "O cliente informado no carrinho é inválido.");
         }
 
-        // P1
+        // P1 - CT03
         @Test
         void CalcularDescontoPorTipoDeProduto_ParaNenhumItemDoMesmoTipo_EntaoDescontoZero() {
                 items = Arrays.asList(
@@ -92,7 +92,7 @@ public class ClassesParticaoTest {
                 assertThat(subTotal).isEqualByComparingTo("430.00").as("Sem desconto para nenhum item do mesmo tipo");
         }
 
-        // P2
+        // P2 - CT04
         @Test
         void CalcularDescontoPorTipoDeProduto_ParaMaisDeTresAQuatroItemsDoMesmoTipo_EntaoDescontoDe5Porcento() {
                 items = Arrays.asList(
@@ -118,7 +118,7 @@ public class ClassesParticaoTest {
                                 .as("Desconto de 5% para mais de 3 a 4 items do mesmo tipo");
         }
 
-        // P3
+        // P3 - CT05
         @Test
         void CalcularDescontoPorTipoDeProduto_ParaMaisDeCincoASeteItemsDoMesmoTipo_EntaoDescontoDe10Porcento() {
                 items = Arrays.asList(
@@ -144,7 +144,7 @@ public class ClassesParticaoTest {
                                 .as("Desconto de 10% para mais de 5 a 7 items do mesmo tipo");
         }
 
-        // P4
+        // P4 - CT06
         @Test
         void CalcularDescontoPorTipoDeProduto_ParaMaisDeOitoItemsDoMesmoTipo_EntaoDescontoDe15Porcento() {
                 items = Arrays.asList(
@@ -170,7 +170,7 @@ public class ClassesParticaoTest {
                                 .as("Desconto de 15% para mais de 8 items do mesmo tipo");
         }
 
-        // P5 - Subtotal negativo
+        // P5 - Subtotal negativo - CT07
         @Test
         void CalcularDescontoPorValorTotalDeCarrinhoDeveLancarExcecaoParaSubTotalNegativo() {
                 items = Arrays.asList(
@@ -185,7 +185,7 @@ public class ClassesParticaoTest {
                 }, "Subtotal negatívo inválido para cálculo de desconto.");
         }
 
-        // P6
+        // P6 - CT08
         @Test
         void CalcularDescontoPorValorTotalDoCarrinho_ParaTotalMenorQue500_EntaoDescontoDe0Porcento() {
                 items = Arrays.asList(
@@ -211,7 +211,7 @@ public class ClassesParticaoTest {
                                 .as("Sem desconto para total do carrinho menor que R$500,00");
         }
 
-        // P7
+        // P7 - CT09
         @Test
         void CalcularDescontoPorValorTotalDoCarrinho_ParaTotalEntre500e1000_EntaoDescontoDe10Porcento() {
                 items = Arrays.asList(
@@ -237,7 +237,7 @@ public class ClassesParticaoTest {
                                 .as("Desconto de 10% para total do carrinho entre R$500,00 e R$1000,00");
         }
 
-        // P8
+        // P8 - CT10
         @Test
         void CalcularDescontoPorValorTotalDoCarrinho_ParaTotalMaiorQue1000_EntaoDescontoDe20Porcento() {
                 items = Arrays.asList(
@@ -263,7 +263,7 @@ public class ClassesParticaoTest {
                                 .as("Desconto de 20% para total do carrinho maior que R$1000,00");
         }
 
-        // P9 - Peso total negativo
+        // P9 - Peso total negativo - CT11
         @Test
         void CalcularFretePorPesoTotalDeveLancarExcecaoParaPesoTotalNegativo() {
                 items = Arrays.asList(
@@ -278,7 +278,7 @@ public class ClassesParticaoTest {
                 }, "Peso total inválido para cálculo de frete.");
         }
 
-        // P10
+        // P10 - CT12
         @Test
         void CalcularFretePorPesoTotal_ParaPesoTotalEntre0E5_EntaoFreteInsento() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -302,7 +302,7 @@ public class ClassesParticaoTest {
                                 .as("Frete isento para peso total entre 0 e 5 kg");
         }
 
-        // P11
+        // P11 - CT13
         @Test
         void CalcularFretePorPesoTotal_ParaPesoTotalEntre5E10_EntaoFreteDe2PorKG() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -326,7 +326,7 @@ public class ClassesParticaoTest {
                                 .as("Frete de R$2,00 por kg para peso total entre 5 e 10 kg");
         }
 
-        // P12
+        // P12 - CT14
         @Test
         void CalcularFretePorPesoTotal_ParaPesoTotalEntre10E50_EntaoFreteDe4PorKG() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -350,7 +350,7 @@ public class ClassesParticaoTest {
                                 .as("Frete de R$4,00 por kg para peso total entre 10 e 50 kg");
         }
 
-        // P13
+        // P13 - CT15
         @Test
         void CalcularFretePorPesoTotal_ParaPesoTotalMaiorQue50_EntaoFreteDe7PorKG() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -374,7 +374,7 @@ public class ClassesParticaoTest {
                                 .as("Frete de R$7,00 por kg para peso total maior que 50 kg");
         }
 
-        // P14
+        // P15 - CT16
         @Test
         void CalcularFretePorPesoTotalSemFragilidade_ParaNenhumItemComFragilidade_EntaoSemTaxaDeManuseio() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -398,7 +398,7 @@ public class ClassesParticaoTest {
                                 .as("Sem taxa de manuseio para nenhum item com fragilidade");
         }
 
-        // P14
+        // P14 - CT17
         @Test
         void CalcularFretePorPesoTotalComFragilidade_ParaItemsComFragilidade_EntaoTaxaDeManuseioDe5XQuantidade() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -421,7 +421,7 @@ public class ClassesParticaoTest {
                 assertThat(frete).isEqualByComparingTo("102.00");
         }
 
-        // P16
+        // P16 - CT18
         @Test
         void CalcularFreteComDescontoPorPesoTipoDeCliente_ParaTipoDeClienteOuro_EntaoFreteInsento() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -445,7 +445,7 @@ public class ClassesParticaoTest {
                                 .as("Frete isento para tipo de cliente Ouro");
         }
 
-        // P17
+        // P17 - CT19
         @Test
         void CalcularFreteComDescontoPorPesoTipoDeCliente_ParaTipoDeClientePrata_EntaoFreteComDescontoDe50Porcento() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -469,7 +469,7 @@ public class ClassesParticaoTest {
                                 .as("Frete com desconto de 50% para tipo de cliente Prata");
         }
 
-        // P18 - Tipo de cliente nulo
+        // P18 - Tipo de cliente nulo - CT20
         @Test
         void CalcularFreteComDescontoPorPesoTipoDeClienteDeveRetornarExcecaoParaTipoDeClienteInvalido() {
                 Regiao regiao = Regiao.SUDESTE;
@@ -492,7 +492,7 @@ public class ClassesParticaoTest {
                 }, "Tipo de cliente inválido para calculo de desconto do frete.");
         }
 
-        // P19, P20, P21, P22, P23, P24
+        // P19, P20, P21, P22, P23, P24 - CT21
         @ParameterizedTest
         @CsvSource({
                         "NORTE, 41.60",
@@ -517,7 +517,7 @@ public class ClassesParticaoTest {
                                 .as("Frete correto para a região " + regiao);
         }
 
-        // P25 - Região nula
+        // P25 - Região nula - CT22
         @Test
         void CalcularFretePorRegiaoDeveRetornarExcecaoParaRegiaoInvalida() {
                 TipoCliente tipoCliente = TipoCliente.BRONZE;
@@ -540,6 +540,7 @@ public class ClassesParticaoTest {
                 }, "Regiao inválida para calculo do frete.");
         }
 
+        // Mapear na tabela
         @Test
         void CarrinhoNuloEmSubTotalComDesconto() {
                 TipoCliente tipoCliente = TipoCliente.BRONZE;
