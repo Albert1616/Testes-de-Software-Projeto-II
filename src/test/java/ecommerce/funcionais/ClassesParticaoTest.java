@@ -539,4 +539,74 @@ public class ClassesParticaoTest {
                         compraService.freteComDesconto(carrinho, null, tipoCliente);
                 }, "Regiao inválida para calculo do frete.");
         }
+
+        @Test
+        void CarrinhoNuloEmSubTotalComDesconto() {
+                TipoCliente tipoCliente = TipoCliente.BRONZE;
+
+                carrinho = null;
+
+                assertThrows(IllegalArgumentException.class, () -> {
+                        compraService.subTotalComDesconto(carrinho);
+                }, "O carrinho informado não é válido.");
+        }
+
+        @Test
+        void CarrinhoNuloEmFreteComDesconto() {
+                TipoCliente tipoCliente = TipoCliente.BRONZE;
+                Regiao regiao = Regiao.NORTE;
+
+                carrinho = null;
+
+                assertThrows(IllegalArgumentException.class, () -> {
+                        compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+                }, "O carrinho informado não é válido.");
+        }
+
+        @Test
+        void ItensNuloEmFreteComDesconto() {
+                TipoCliente tipoCliente = TipoCliente.BRONZE;
+                Regiao regiao = Regiao.NORTE;
+
+                carrinho.setItens(null);;
+
+                assertThrows(IllegalArgumentException.class, () -> {
+                        compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+                }, "Lista de itens inválida.");
+        }
+
+        @Test
+        void ClienteNuloEmFreteComDesconto() {
+                TipoCliente tipoCliente = TipoCliente.BRONZE;
+                Regiao regiao = Regiao.NORTE;
+
+                carrinho.setCliente(null);;
+
+                assertThrows(IllegalArgumentException.class, () -> {
+                        compraService.freteComDesconto(carrinho, regiao, tipoCliente);
+                }, "O carrinho informado não possui um cliente válido.");
+        }
+
+        @Test
+        void CalcularCustoTotalComSucesso() {
+                Regiao regiao = Regiao.SUDESTE;
+                TipoCliente tipoCliente = TipoCliente.PRATA;
+
+                items = Arrays.asList(
+                                new ItemCompra(1L, new Produto(1L, "Smartphone X1", "Smartphone top de linha",
+                                                BigDecimal.valueOf(100), BigDecimal.valueOf(10),
+                                                BigDecimal.valueOf(1), BigDecimal.valueOf(1), BigDecimal.valueOf(0.8),
+                                                true, TipoProduto.ELETRONICO), 1L),
+
+                                new ItemCompra(2L, new Produto(2L, "Camisa Polo", "Camisa social masculina",
+                                                BigDecimal.valueOf(500), BigDecimal.valueOf(10),
+                                                BigDecimal.valueOf(1), BigDecimal.valueOf(2), BigDecimal.valueOf(1),
+                                                true, TipoProduto.ROUPA), 1L));
+
+                carrinho.setItens(items);
+                BigDecimal custoTotal = compraService.calcularCustoTotal(carrinho, regiao, tipoCliente);
+
+                assertThat(custoTotal).isEqualByComparingTo("591.00")
+                                .as("Cálculo de custo total");
+        }
 }

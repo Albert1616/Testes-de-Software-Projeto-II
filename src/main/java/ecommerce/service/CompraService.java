@@ -232,18 +232,18 @@ public class CompraService {
 	}
 
 	public BigDecimal subTotalComDesconto(CarrinhoDeCompras carrinho) {
-		if (carrinho.getCliente() == null) {
-			throw new IllegalArgumentException("O carrinho informado não possui um cliente válido.");
-		}
-
 		if (carrinho == null) {
 			throw new IllegalArgumentException("O carrinho informado não é válido.");
+		}
+
+		if (carrinho.getCliente() == null) {
+			throw new IllegalArgumentException("O carrinho informado não possui um cliente válido.");
 		}
 
 		// Lista de ItemProduto do carrinho
 		List<ItemCompra> produtos = carrinho.getItens();
 
-		if (produtos == null || produtos.isEmpty()) {
+		if (produtos == null) {
 			throw new IllegalArgumentException("Lista de itens inválida.");
 		}
 
@@ -266,12 +266,12 @@ public class CompraService {
 	}
 
 	public BigDecimal freteComDesconto(CarrinhoDeCompras carrinho, Regiao regiao, TipoCliente tipoCliente) {
-		if (carrinho.getCliente() == null) {
-			throw new IllegalArgumentException("O carrinho informado não possui um cliente válido.");
-		}
-
 		if (carrinho == null) {
 			throw new IllegalArgumentException("O carrinho informado não é válido.");
+		}
+
+		if (carrinho.getCliente() == null) {
+			throw new IllegalArgumentException("O carrinho informado não possui um cliente válido.");
 		}
 
 		List<ItemCompra> produtos = carrinho.getItens();
