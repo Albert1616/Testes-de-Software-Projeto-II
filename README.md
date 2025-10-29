@@ -175,3 +175,19 @@ Decisão mais complexa no nosso código:
 | `True`  | `True`  | `True`  | CalcularFretePorPesoTotal_ParaPesoTotalEntre5E10_EntaoFreteDe2PorKG              |
 | `False` | `True`  | `False` | CalcularFretePorPesoTotal_ParaPesoTotalEntre0E5_EntaoFreteIsento              |
 | `True`  | `False` | `False` | CalcularFretePorPesoTotal_ParaPesoTotalEntre10E50_EntaoFreteDe4PorKG              |
+
+
+## Grafo de fluxo de controle (GFC)
+
+Como nós dividimos a implementação de `CompraService` em vários métodos menores, vamos fazer um GFC para cada médoto.
+
+| Método | GFC          |
+|----|-------------------|
+| ![](/img/subTotalComDesconto.png) | ![](/img/subTotalComDesconto-gfc.png)   |
+| ![](/img/calcularSubTotal.png) | ![](/img/calcularSubTotal-gfc.png) |
+| ![](/img/calculaDescontoPorTipo.png) | ![](/img/calculaDescontoPorTipo-gfc.png) |
+| ![](/img/calcularDescontoPorValorCarrinho.png) | ![](/img/calcularDescontoPorValorCarrinho-gfc.png) |
+| ![](/img/freteComDesconto.png) | ![](/img/freteComDesconto-gfc.png) |
+| ![](/img/calcularFrete.png) | ![](/img/calcularFrete-gfc.png) |
+| ![](/img/calcularPesoTotal.png) | ![](/img/calcularPesoTotal-gfc.png) |
+| ![](/img/calculaDescontoFrete.png) | ![](/img/calculaDescontoFrete-gfc.png) |
