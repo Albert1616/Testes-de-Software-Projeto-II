@@ -179,7 +179,7 @@ Decisão mais complexa no nosso código:
 
 ## Grafo de fluxo de controle (GFC)
 
-Como nós dividimos a implementação de `CompraService` em vários métodos menores, vamos fazer um GFC para cada médoto.
+Como nós dividimos a implementação de `CompraService` em vários métodos menores, construímos um GFC para cada método.
 
 | Método | GFC          |
 |----|-------------------|
@@ -191,3 +191,34 @@ Como nós dividimos a implementação de `CompraService` em vários métodos men
 | ![](/img/calcularFrete.png) | ![](/img/calcularFrete-gfc.png) |
 | ![](/img/calcularPesoTotal.png) | ![](/img/calcularPesoTotal-gfc.png) |
 | ![](/img/calculaDescontoFrete.png) | ![](/img/calculaDescontoFrete-gfc.png) |
+
+
+Aqui está os cálculos de complexidade ciclomática para cada imagem, usando a fórmula $V(G) = E - N + 2P$, onde $P=1$ para todos os métodos. O número mínimo de casos de teste independentes necessários é um valor maior ou igual ao resultado de V(G).
+
+---
+
+1. **`calculaDescontoPorTipo`**
+    * $V(G) = 18 - 14 + 2(1) = 4 + 2$
+    * **$V(G) = 6$**
+2. **`calcularDescontoPorValorCarrinho`**
+    * $V(G) = 11 - 9 + 2(1) = 2 + 2$
+    * **$V(G) = 4$**
+3. **`calcularDescontoFrete`**
+    * $V(G) = 11 - 9 + 2(1) = 2 + 2$
+    * **$V(G) = 4$**
+4. **`freteComDesconto`**
+    * $V(G) = 12 - 10 + 2(1) = 2 + 2$
+    * **$V(G) = 4$**
+5. **`subTotalComDesconto`**
+    * $V(G) = 12 - 10 + 2(1) = 2 + 2$
+    * **$V(G) = 4$**
+6. **`calcularFrete`**
+    * $V(G) = 40 - 29 + 2(1) = 11 + 2$
+    * **$V(G) = 13$**
+7. **`calcularPesoTotal`**
+    * $V(G) = 6 - 6 + 2(1) = 0 + 2$
+    * **$V(G) = 2$**
+8. **`calcularSubTotal`**
+    * $V(G) = 6 - 6 + 2(1) = 0 + 2$
+    * **$V(G) = 2$**
+  
