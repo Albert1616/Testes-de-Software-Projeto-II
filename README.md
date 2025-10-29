@@ -222,3 +222,15 @@ Aqui está os cálculos de complexidade ciclomática para cada imagem, usando a 
     * $V(G) = 6 - 6 + 2(1) = 0 + 2$
     * **$V(G) = 2$**
   
+## Como executar
+### Pré-requisítos: 
+   1. Java
+   2. Maven
+   3. Recomendável alguma IDE, como VS Code ou Intellij
+### Executar projeto
+   1. Clone este repositório no seu computador
+      ``git clone https://github.com/Albert1616/Testes-de-Software-Projeto-II.git``
+   2. Abra a pasta do projeto no terminal ou na IDE
+   3. Execute o seguinte comando no terminal:
+      ``mvn run``
+  
