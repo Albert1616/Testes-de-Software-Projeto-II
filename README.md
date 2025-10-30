@@ -233,4 +233,6 @@ Aqui está os cálculos de complexidade ciclomática para cada imagem, usando a 
    2. Abra a pasta do projeto no terminal ou na IDE
    3. Execute o seguinte comando no terminal:
       ``mvn run``
+   4. Para executar os testes, digite o seguinte comando no terminal: ``mvn test``
+   5. Digite ``mvn verify`` no terminal para ver a cobertura de testes do projeto.
   
