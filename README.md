@@ -229,10 +229,20 @@ Aqui está os cálculos de complexidade ciclomática para cada imagem, usando a 
    3. Recomendável alguma IDE, como VS Code ou Intellij
 ### Executar projeto
    1. Clone este repositório no seu computador
-      ``git clone https://github.com/Albert1616/Testes-de-Software-Projeto-II.git``
-   2. Abra a pasta do projeto no terminal ou na IDE
-   3. Execute o seguinte comando no terminal:
-      ``mvn run``
-   4. Para executar os testes, digite o seguinte comando no terminal: ``mvn test``
-   5. Digite ``mvn verify`` no terminal para ver a cobertura de testes do projeto.
-  
+      ```bash
+      git clone https://github.com/Albert1616/Testes-de-Software-Projeto-II.git
+      ```
+   3. Abra a pasta do projeto no terminal ou na IDE
+   4. Para executar o projeto digite o seguinte comando no terminal:
+      ```bash
+      mvn clean compile
+      ```
+   6. Para executar os testes, digite o seguinte comando no terminal:
+      ```bash
+       mvn test
+      ```
+      
+   8.  Para ver a cobertura de testes do projeto, digite o seguinte comando no terminal:
+       ```bash
+         mvn verify
+       ```
