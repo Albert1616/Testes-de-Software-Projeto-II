@@ -118,6 +118,22 @@ public class CompraService {
 		return pesoTotal;
 	}
 
+	private BigDecimal calcularValorBaseFrete(BigDecimal pesoTotal) {
+		if (pesoTotal.compareTo(BigDecimal.valueOf(5)) < 1) {
+			return BigDecimal.ZERO;
+		}
+
+		if (pesoTotal.compareTo(BigDecimal.valueOf(10)) <= 0) {
+			return pesoTotal.multiply(BigDecimal.valueOf(2));
+		}
+
+		if (pesoTotal.compareTo(BigDecimal.valueOf(50)) <= 0) {
+			return pesoTotal.multiply(BigDecimal.valueOf(4));
+		}
+
+		return pesoTotal.multiply(BigDecimal.valueOf(7));
+	}
+
 	public BigDecimal calcularFrete(List<ItemCompra> items) {
 		BigDecimal pesoTotal = calcularPesoTotal(items);
 		BigDecimal valorFrete = BigDecimal.ZERO;
@@ -126,20 +142,7 @@ public class CompraService {
 			throw new IllegalArgumentException("Peso total inválido para cálculo de frete.");
 		}
 
-		// Cálculo do frete baseado no peso total
-		if (pesoTotal.compareTo(BigDecimal.valueOf(5)) == -1) {
-			valorFrete = BigDecimal.ZERO;
-		} else if (pesoTotal.compareTo(BigDecimal.valueOf(5)) > 0 && pesoTotal.compareTo(BigDecimal.valueOf(10)) <= 0) {
-			valorFrete = pesoTotal
-					.multiply(BigDecimal.valueOf(2));
-		} else if (pesoTotal.compareTo(BigDecimal.valueOf(10)) > 0
-				&& pesoTotal.compareTo(BigDecimal.valueOf(50)) <= 0) {
-			valorFrete = pesoTotal
-					.multiply(BigDecimal.valueOf(4));
-		} else if (pesoTotal.compareTo(BigDecimal.valueOf(50)) > 0) {
-			valorFrete = pesoTotal
-					.multiply(BigDecimal.valueOf(7));
-		}
+		valorFrete = calcularValorBaseFrete(pesoTotal);
 
 		// Adicional para produtos frágeis
 		for (ItemCompra item : items) {
