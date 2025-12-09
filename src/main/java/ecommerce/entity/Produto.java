@@ -10,8 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Produto
-{
+public class Produto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,13 +37,11 @@ public class Produto
 	@Enumerated(EnumType.STRING)
 	private TipoProduto tipo;
 
-	public Produto()
-	{
+	public Produto(long l, String string, TipoProduto eletronico, BigDecimal bigDecimal, int i) {
 	}
 
 	public Produto(Long id, String nome, String descricao, BigDecimal preco, BigDecimal pesoFisico,
-			BigDecimal comprimento, BigDecimal largura, BigDecimal altura, Boolean fragil, TipoProduto tipo)
-	{
+			BigDecimal comprimento, BigDecimal largura, BigDecimal altura, Boolean fragil, TipoProduto tipo) {
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
@@ -58,103 +55,83 @@ public class Produto
 	}
 
 	// Getters e Setters
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNome()
-	{
+	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome)
-	{
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public String getDescricao()
-	{
+	public String getDescricao() {
 		return descricao;
 	}
 
-	public void setDescricao(String descricao)
-	{
+	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
-	public BigDecimal getPreco()
-	{
+	public BigDecimal getPreco() {
 		return preco;
 	}
 
-	public void setPreco(BigDecimal preco)
-	{
+	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 
-	public BigDecimal getPesoFisico()
-	{
+	public BigDecimal getPesoFisico() {
 		return pesoFisico;
 	}
 
-	public void setPesoFisico(BigDecimal pesoFisico)
-	{
+	public void setPesoFisico(BigDecimal pesoFisico) {
 		this.pesoFisico = pesoFisico;
 	}
 
-	public BigDecimal getComprimento()
-	{
+	public BigDecimal getComprimento() {
 		return comprimento;
 	}
 
-	public void setComprimento(BigDecimal comprimento)
-	{
+	public void setComprimento(BigDecimal comprimento) {
 		this.comprimento = comprimento;
 	}
 
-	public BigDecimal getLargura()
-	{
+	public BigDecimal getLargura() {
 		return largura;
 	}
 
-	public void setLargura(BigDecimal largura)
-	{
+	public void setLargura(BigDecimal largura) {
 		this.largura = largura;
 	}
 
-	public BigDecimal getAltura()
-	{
+	public BigDecimal getAltura() {
 		return altura;
 	}
 
-	public void setAltura(BigDecimal altura)
-	{
+	public void setAltura(BigDecimal altura) {
 		this.altura = altura;
 	}
 
-	public Boolean isFragil()
-	{
+	public Boolean isFragil() {
 		return fragil;
 	}
 
-	public void setFragil(Boolean fragil)
-	{
+	public void setFragil(Boolean fragil) {
 		this.fragil = fragil;
 	}
 
-	public TipoProduto getTipo()
-	{
+	public TipoProduto getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TipoProduto tipo)
-	{
+	public void setTipo(TipoProduto tipo) {
 		this.tipo = tipo;
 	}
 }
