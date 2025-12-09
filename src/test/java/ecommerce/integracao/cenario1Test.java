@@ -186,4 +186,23 @@ public class cenario1Test {
         // valida que o fake realmente cancelou
         Assertions.assertTrue(pagamento.cancelou);
     }
+
+    // =============================================================
+    // 5) FALHA QUANDO NÃO TIVER DISPONIBILIDADE
+    // =============================================================
+    @Test
+    void deveFalharQuandoHouverIndisponibilidade() {
+
+        when(clienteService.buscarPorId(1L)).thenReturn(cliente);
+        when(carrinhoService.buscarPorCarrinhoIdEClienteId(1L, cliente)).thenReturn(carrinho);
+
+        estoque.disponibilidade = false;
+        pagamento.pagamentoOk = true;
+
+        IllegalStateException ex = assertThrows(
+                IllegalStateException.class,
+                () -> compraService.finalizarCompra(1L, 1L));
+
+        Assertions.assertEquals("Itens fora de estoque.", ex.getMessage());
+    }
 }
