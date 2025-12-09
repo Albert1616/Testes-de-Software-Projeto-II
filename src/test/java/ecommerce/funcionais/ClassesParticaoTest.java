@@ -41,11 +41,10 @@ public class ClassesParticaoTest {
 
         @Test
         void subTotalComDesconto_deveLancarExcecao_paraCarrinhoSemItens() {
-                CarrinhoDeCompras carrinhoSemItens = new CarrinhoDeCompras();
-                carrinhoSemItens.setItens(null);
+                carrinho.setItens(null);
 
                 assertThrows(IllegalArgumentException.class, () -> {
-                        compraService.subTotalComDesconto(carrinhoSemItens);
+                        compraService.subTotalComDesconto(carrinho);
                 }, "Lista de itens inválida.");
         }
 
