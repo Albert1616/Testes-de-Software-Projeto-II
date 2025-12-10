@@ -19,7 +19,6 @@ import ecommerce.dto.CompraDTO;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,16 +27,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class cenario1Test {
-
-    // =============================================================
-    // FAKE DO ESTOQUE EXTERNAL
-    // =============================================================
+    // Fakes dos serviços externos
     class EstoqueFake implements IEstoqueExternal {
         public boolean disponibilidade = true;
         public boolean baixaOk = true;
@@ -53,9 +48,6 @@ public class cenario1Test {
         }
     }
 
-    // =============================================================
-    // FAKE DO PAGAMENTO EXTERNAL
-    // =============================================================
     class PagamentoFake implements IPagamentoExternal {
         public boolean pagamentoOk = true;
         public Long transacao = 999L;
@@ -87,6 +79,7 @@ public class cenario1Test {
 
     CompraService compraService;
 
+    // Setup inicial
     @BeforeEach
     void setup() {
         estoque = new EstoqueFake();
@@ -112,9 +105,7 @@ public class cenario1Test {
         compraService = new CompraService(carrinhoService, clienteService, estoque, pagamento);
     }
 
-    // =============================================================
-    // 1) SUCESSO
-    // =============================================================
+    // Teste 01 - Cenário Feliz
     @Test
     void deveFinalizarCompraComSucesso() {
 
@@ -133,19 +124,7 @@ public class cenario1Test {
         Assertions.assertEquals(1234L, dto.transacaoPagamentoId());
     }
 
-    // =============================================================
-    // 2) FALHA POR ESTOQUE INDISPONÍVEL
-    // =============================================================
-    // @Test
-    // void deveFalharQuandoEstoqueIndisponivel() {
-    // assertThrows(IllegalStateException.class, () -> {
-    // compraService.finalizarCompra(1L, 1L);
-    // });
-    // }
-
-    // =============================================================
-    // 3) FALHA POR PAGAMENTO NEGADO
-    // =============================================================
+    // Teste 02 - Falha no pagamento
     @Test
     void deveFalharQuandoPagamentoNegado() {
 
@@ -153,7 +132,7 @@ public class cenario1Test {
         when(carrinhoService.buscarPorCarrinhoIdEClienteId(1L, cliente)).thenReturn(carrinho);
 
         estoque.disponibilidade = true;
-        pagamento.pagamentoOk = false; // pagamento negado
+        pagamento.pagamentoOk = false;
 
         IllegalStateException ex = assertThrows(
                 IllegalStateException.class,
@@ -162,9 +141,7 @@ public class cenario1Test {
         Assertions.assertEquals("Pagamento não autorizado.", ex.getMessage());
     }
 
-    // =============================================================
-    // 4) FALHA NA BAIXA → PAGAMENTO CANCELADO
-    // =============================================================
+    // Teste 03 - Falha na baixa do estoque
     @Test
     void deveCancelarPagamentoQuandoBaixaNoEstoqueFalhar() {
 
@@ -183,13 +160,10 @@ public class cenario1Test {
 
         Assertions.assertEquals("Erro ao dar baixa no estoque.", ex.getMessage());
 
-        // valida que o fake realmente cancelou
         Assertions.assertTrue(pagamento.cancelou);
     }
 
-    // =============================================================
-    // 5) FALHA QUANDO NÃO TIVER DISPONIBILIDADE
-    // =============================================================
+    // Teste 04 - Itens indisponíveis no estoque
     @Test
     void deveFalharQuandoHouverIndisponibilidade() {
 
